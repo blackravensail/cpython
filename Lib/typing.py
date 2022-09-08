@@ -1627,7 +1627,9 @@ class _CallableType(_SpecialGenericAlias, _root=True):
 class _TupleType(_SpecialGenericAlias, _root=True):
     @_tp_cache
     def __getitem__(self, params):
-        if not isinstance(params, tuple):
+        if isinstance(params, collections.abc.Iterable):
+            params = tuple(params)
+        else:
             params = (params,)
         if len(params) >= 2 and params[-1] is ...:
             msg = "Tuple[t, ...]: t must be a type."
